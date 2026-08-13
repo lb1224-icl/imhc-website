@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "design-reference",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-3", "-m", "http.server", "5577", "--directory", "design-reference"],
+      "port": 5577
+    }
+  ]
+}
