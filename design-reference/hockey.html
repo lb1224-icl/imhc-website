@@ -60,64 +60,6 @@
   <div class="wrap">
     <div class="section-head">
       <div class="tag-row">
-        <p class="eyebrow">Weekly schedule</p>
-        <h2 class="h2">Training</h2>
-      </div>
-    </div>
-    <div class="table-scroll">
-      <table class="leader-table">
-        <thead>
-          <tr><th>Day</th><th>Time</th><th>Session</th><th>Location</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><b>Monday</b></td><td class="numeral">19:00&ndash;20:30</td><td>Fitness &amp; Fundamentals</td><td>Ethos Sports Centre</td></tr>
-          <tr><td><b>Wednesday</b></td><td class="numeral">07:00&ndash;08:30</td><td>Full Squad Training</td><td>Perry Park Astro</td></tr>
-          <tr><td><b>Friday</b></td><td class="numeral">18:00&ndash;19:00</td><td>Goalkeeper Session</td><td>Ethos Sports Centre</td></tr>
-          <tr><td><b>Sunday</b></td><td class="numeral">10:00&ndash;11:30</td><td>Optional Skills &amp; Fitness</td><td>Heston Astro</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="tag-row">
-        <p class="eyebrow">Coming up</p>
-        <h2 class="h2">Matches</h2>
-      </div>
-      <a href="calendar.html" class="btn btn-ghost">Full calendar</a>
-    </div>
-    <div class="agenda-list card" style="border-top-color:var(--red);">
-      <div class="agenda-row">
-        <div class="agenda-date"><b>17</b><span>Sep</span></div>
-        <div class="agenda-info"><b>1st XI vs UCL</b><div class="meta">Home &middot; Perry Park Astro &middot; 14:00</div></div>
-        <span class="pill pill-red">BUCS</span>
-      </div>
-      <div class="agenda-row">
-        <div class="agenda-date"><b>20</b><span>Sep</span></div>
-        <div class="agenda-info"><b>2nd XI vs Royal Holloway</b><div class="meta">Away &middot; Egham &middot; 13:00</div></div>
-        <span class="pill pill-red">BUCS</span>
-      </div>
-      <div class="agenda-row">
-        <div class="agenda-date"><b>24</b><span>Sep</span></div>
-        <div class="agenda-info"><b>1st XI vs King's College</b><div class="meta">Home &middot; Perry Park Astro &middot; 14:00</div></div>
-        <span class="pill pill-gold">BUCS Cup</span>
-      </div>
-      <div class="agenda-row">
-        <div class="agenda-date"><b>27</b><span>Sep</span></div>
-        <div class="agenda-info"><b>3rd XI vs St George's</b><div class="meta">Away &middot; Tooting &middot; 15:00</div></div>
-        <span class="pill pill-outline">Friendly</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="tag-row">
         <p class="eyebrow">Form guide</p>
         <h2 class="h2">Recent results</h2>
       </div>
@@ -188,14 +130,21 @@
 </section>
 
 <section class="section" style="padding-top:0;">
-  <div class="wrap">
+  <div class="wrap" data-tab-group>
     <div class="section-head">
       <div class="tag-row">
-        <p class="eyebrow">Fantasy league</p>
-        <h2 class="h2">Leaderboard</h2>
+        <p class="eyebrow">Club info</p>
+        <h2 class="h2">More about the season</h2>
       </div>
-      <p style="color:var(--fog);font-size:.85rem;max-width:26ch;text-align:right;">Synced weekly from the club's fantasy tracker &mdash; no official API, so numbers update by hand.</p>
+      <div class="tabbar">
+        <button type="button" data-tab="leaderboard" class="active">Fantastar</button>
+        <button type="button" data-tab="matches">Matches</button>
+        <button type="button" data-tab="training">Training</button>
+      </div>
     </div>
+
+    <div data-tabpanel="leaderboard">
+    <p style="color:var(--fog);font-size:.85rem;margin-bottom:1.25rem;">Synced weekly from the club's Fantastar tracker &mdash; no official API, so numbers update by hand.</p>
     <div class="rank-list">
       <div class="rank-row top1">
         <span class="rank-badge">1</span>
@@ -278,6 +227,53 @@
         </span>
       </div>
     </div>
+    </div>
+
+    <div data-tabpanel="matches" hidden>
+      <div class="card-row" style="margin-bottom:1.25rem;">
+        <p style="color:var(--fog);font-size:.85rem;">The next few fixtures across all three sides.</p>
+        <a href="calendar.html" class="btn btn-ghost">Full calendar</a>
+      </div>
+      <div class="agenda-list card" style="border-top-color:var(--red);">
+        <div class="agenda-row">
+          <div class="agenda-date"><b>17</b><span>Sep</span></div>
+          <div class="agenda-info"><b>1st XI vs UCL</b><div class="meta">Home &middot; Perry Park Astro &middot; 14:00</div></div>
+          <span class="pill pill-red">BUCS</span>
+        </div>
+        <div class="agenda-row">
+          <div class="agenda-date"><b>20</b><span>Sep</span></div>
+          <div class="agenda-info"><b>2nd XI vs Royal Holloway</b><div class="meta">Away &middot; Egham &middot; 13:00</div></div>
+          <span class="pill pill-red">BUCS</span>
+        </div>
+        <div class="agenda-row">
+          <div class="agenda-date"><b>24</b><span>Sep</span></div>
+          <div class="agenda-info"><b>1st XI vs King's College</b><div class="meta">Home &middot; Perry Park Astro &middot; 14:00</div></div>
+          <span class="pill pill-gold">BUCS Cup</span>
+        </div>
+        <div class="agenda-row">
+          <div class="agenda-date"><b>27</b><span>Sep</span></div>
+          <div class="agenda-info"><b>3rd XI vs St George's</b><div class="meta">Away &middot; Tooting &middot; 15:00</div></div>
+          <span class="pill pill-outline">Friendly</span>
+        </div>
+      </div>
+    </div>
+
+    <div data-tabpanel="training" hidden>
+      <p style="color:var(--fog);font-size:.85rem;margin-bottom:1.25rem;">The weekly rhythm &mdash; same slots all season, holidays aside.</p>
+      <div class="table-scroll">
+        <table class="leader-table">
+          <thead>
+            <tr><th>Day</th><th>Time</th><th>Session</th><th>Location</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Monday</b></td><td class="numeral">19:00&ndash;20:30</td><td>Fitness &amp; Fundamentals</td><td>Ethos Sports Centre</td></tr>
+            <tr><td><b>Wednesday</b></td><td class="numeral">07:00&ndash;08:30</td><td>Full Squad Training</td><td>Perry Park Astro</td></tr>
+            <tr><td><b>Friday</b></td><td class="numeral">18:00&ndash;19:00</td><td>Goalkeeper Session</td><td>Ethos Sports Centre</td></tr>
+            <tr><td><b>Sunday</b></td><td class="numeral">10:00&ndash;11:30</td><td>Optional Skills &amp; Fitness</td><td>Heston Astro</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -330,6 +326,12 @@
     </div>
   </div>
 </footer>
+
+<div class="scroll-cue" aria-hidden="true">
+  <span class="scroll-cue-label">Scroll</span>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E3AC1F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3 9 15.5 3 18.5"/></svg>
+  <span class="scroll-cue-dots"><span></span><span></span><span></span></span>
+</div>
 <script src="assets/site.js" defer></script>
 </body>
 </html>

@@ -32,8 +32,38 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // Tab panels: a [data-tab-group] wraps buttons ([data-tab]) and content
+  // panels ([data-tabpanel]) — clicking a button shows the matching panel
+  // and hides the others. Used on the Hockey page (Fantastar/Matches/Training).
+  document.querySelectorAll('[data-tab-group]').forEach(function (group) {
+    var buttons = group.querySelectorAll('[data-tab]');
+    var panels = group.querySelectorAll('[data-tabpanel]');
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.getAttribute('data-tab');
+        buttons.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        panels.forEach(function (p) {
+          p.hidden = p.getAttribute('data-tabpanel') !== target;
+        });
+      });
+    });
+  });
+
   initCalendar();
+  initScrollCue();
 });
+
+// ---- Scroll cue ----
+// Fades the fixed side scroll hint once the visitor has actually scrolled,
+// and brings it back if they return to the top.
+function initScrollCue() {
+  var cue = document.querySelector('.scroll-cue');
+  if (!cue) return;
+  function update() { cue.classList.toggle('hide', window.scrollY > 220); }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+}
 
 // ---- Calendar module ----
 // Generates the month grid from a small recurring-events ruleset plus a

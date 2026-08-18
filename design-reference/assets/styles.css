@@ -156,7 +156,7 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
   background:rgba(20,15,13,.92);
   border-bottom:1px solid var(--line);
 }
-.site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding-block:.85rem;}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding-block:.6rem;}
 .brand{display:flex;align-items:center;gap:.75rem;}
 .brand .mark{width:42px;height:42px;flex:none;}
 .brand .word{display:flex;flex-direction:column;line-height:1;}
@@ -184,6 +184,8 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
 /* ---- Footer ---- */
 .site-footer{border-top:1px solid var(--line);background:var(--ink-raise);}
 .site-footer .wrap{padding-block:3.5rem 2.5rem;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:2.5rem;}
+.site-footer .wrap > div{min-width:0;}
+.site-footer a{overflow-wrap:break-word;}
 .site-footer h4{margin-bottom:1rem;}
 .site-footer .about{max-width:32ch;color:var(--fog);font-size:.95rem;}
 .site-footer ul{display:flex;flex-direction:column;gap:.6rem;}
@@ -238,10 +240,15 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
 
 /* ---- Page header (non-home) ---- */
 .page-header{border-bottom:3px solid var(--gold);background:var(--surface);position:relative;overflow:hidden;}
-.page-header .wrap{padding-block:clamp(2.6rem,2rem + 3vw,4.5rem) 2.75rem;position:relative;}
-.page-header .lede{margin-top:1rem;}
-.page-header .side-deco{position:absolute;right:-20px;top:50%;transform:translateY(-50%) rotate(8deg);width:120px;opacity:.5;}
-@media (max-width:760px){.page-header .side-deco{display:none;}}
+.page-header .wrap{padding-block:1.35rem 1.25rem;position:relative;}
+.page-header .eyebrow{margin-bottom:.2rem;}
+.page-header h1{font-size:clamp(1.4rem,1.2rem + 1.2vw,1.9rem);}
+.page-header .lede{margin-top:.3rem;font-size:.92rem;color:var(--fog);max-width:56ch;}
+.page-header .side-deco{position:absolute;right:-16px;top:50%;transform:translateY(-50%) rotate(8deg);width:76px;opacity:.45;}
+@media (max-width:760px){
+  .page-header .wrap{padding-block:1.05rem .95rem;}
+  .page-header .side-deco{display:none;}
+}
 
 /* ---- Instagram strip: flat sticker tiles, no gradients ---- */
 .insta-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;}
@@ -277,6 +284,27 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
 .tabbar{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;padding:.25rem;gap:.25rem;}
 .tabbar button{font-family:var(--font-cond);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:.8rem;padding:.5rem 1.1rem;border-radius:999px;color:var(--fog);}
 .tabbar button.active{background:var(--red);color:var(--parchment);}
+
+/* ---- Tab panels (Hockey page: Fantastar / Matches / Training switcher) ---- */
+[data-tabpanel]{animation:panelIn .15s ease;}
+@keyframes panelIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* ---- Scroll cue: fun fixed side indicator ---- */
+.scroll-cue{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;align-items:center;gap:9px;pointer-events:none;transition:opacity .3s ease;opacity:1;}
+.scroll-cue.hide{opacity:0;}
+.scroll-cue-label{writing-mode:vertical-rl;text-orientation:mixed;font-family:var(--font-cond);font-weight:700;letter-spacing:.18em;font-size:.66rem;color:var(--fog-dim);text-transform:uppercase;}
+.scroll-cue-dots{display:flex;flex-direction:column;gap:6px;}
+.scroll-cue-dots span{width:7px;height:7px;border-radius:50%;display:block;border:1.5px solid var(--shadow);animation:scrollBounce 1.4s ease-in-out infinite;}
+.scroll-cue-dots span:nth-child(1){background:var(--red);animation-delay:0s;}
+.scroll-cue-dots span:nth-child(2){background:var(--gold);animation-delay:.18s;}
+.scroll-cue-dots span:nth-child(3){background:var(--parchment-dim);animation-delay:.36s;}
+@keyframes scrollBounce{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(6px);opacity:1;}}
+@media (max-width:760px){
+  .scroll-cue{right:8px;gap:7px;}
+  .scroll-cue-dots{gap:5px;}
+  .scroll-cue-dots span{width:6px;height:6px;}
+  .scroll-cue-label{font-size:.58rem;}
+}
 
 .agenda-list{display:flex;flex-direction:column;}
 .agenda-row{display:grid;grid-template-columns:88px 1fr auto;gap:1.25rem;align-items:center;padding:1.1rem 0;border-bottom:1px solid var(--line);}
