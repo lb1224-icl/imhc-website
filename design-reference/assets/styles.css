@@ -427,21 +427,17 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
 /* ---- Committee page ---- */
 .committee-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;}
 .person-card{background:var(--surface);border:var(--stroke) solid var(--shadow);border-radius:var(--radius-md);padding:1.5rem;text-align:left;box-shadow:var(--shadow-md);position:relative;overflow:hidden;}
-.person-card:nth-child(5n+1){transform:rotate(-1.2deg);}
-.person-card:nth-child(5n+2){transform:rotate(.9deg);}
-.person-card:nth-child(5n+3){transform:rotate(-.5deg);}
-.person-card:nth-child(5n+4){transform:rotate(1.3deg);}
-.person-card:nth-child(5n+5){transform:rotate(-.9deg);}
 .person-card .blob-deco{position:absolute;top:-28px;right:-28px;width:96px;height:96px;opacity:.9;z-index:0;}
-.person-card:nth-child(4n+1) .blob-deco path{fill:var(--red-deep);}
-.person-card:nth-child(4n+2) .blob-deco path{fill:var(--gold-deep);}
-.person-card:nth-child(4n+3) .blob-deco path{fill:var(--ink-raise);}
-.person-card:nth-child(4n+4) .blob-deco path{fill:var(--red);}
+/* Colour-coded by role group, not position: exec / social / other / captains */
+.person-card:nth-child(-n+3) .blob-deco path{fill:var(--red-deep);}
+.person-card:nth-child(n+4):nth-child(-n+6) .blob-deco path{fill:var(--gold-deep);}
+.person-card:nth-child(n+7):nth-child(-n+10) .blob-deco path{fill:var(--red);}
+.person-card:nth-child(n+11) .blob-deco path{fill:var(--ink-raise);}
 .person-card .avatar{position:relative;z-index:1;width:64px;height:64px;margin-bottom:1.1rem;font-size:1.2rem;border:var(--stroke) solid var(--shadow);box-shadow:3px 3px 0 var(--shadow);color:var(--parchment);}
-.person-card:nth-child(4n+1) .avatar{background:var(--red-deep);}
-.person-card:nth-child(4n+2) .avatar{background:var(--gold-deep);}
-.person-card:nth-child(4n+3) .avatar{background:var(--ink-raise);}
-.person-card:nth-child(4n+4) .avatar{background:var(--red);}
+.person-card:nth-child(-n+3) .avatar{background:var(--red-deep);}
+.person-card:nth-child(n+4):nth-child(-n+6) .avatar{background:var(--gold-deep);}
+.person-card:nth-child(n+7):nth-child(-n+10) .avatar{background:var(--red);}
+.person-card:nth-child(n+11) .avatar{background:var(--ink-raise);}
 .person-card .role{position:relative;z-index:1;display:inline-block;font-family:var(--font-cond);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.7rem;color:#1A1200;background:var(--gold);border:1.5px solid var(--shadow);border-radius:999px;padding:.2rem .6rem;}
 .person-card .name{position:relative;z-index:1;font-family:var(--font-display);font-weight:600;font-size:1.2rem;margin-top:.6rem;}
 .person-card a.email{position:relative;z-index:1;display:inline-block;margin-top:.9rem;font-size:.85rem;color:var(--fog);border-top:1px solid var(--line);padding-top:.9rem;width:100%;}
