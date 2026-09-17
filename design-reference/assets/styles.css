@@ -257,6 +257,7 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
 .page-header .eyebrow{margin-bottom:.2rem;}
 .page-header h1{font-size:clamp(1.4rem,1.2rem + 1.2vw,1.9rem);}
 .page-header .lede{margin-top:.3rem;font-size:.92rem;color:var(--fog);max-width:56ch;}
+.page-header .cta-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.4rem;}
 .page-header .side-deco{position:absolute;right:-16px;top:50%;transform:translateY(-50%) rotate(8deg);width:76px;opacity:.45;}
 @media (max-width:760px){
   .page-header .wrap{padding-block:1.05rem .95rem;}
