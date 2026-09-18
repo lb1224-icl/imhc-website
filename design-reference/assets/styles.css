@@ -243,8 +243,8 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
 .hero-badges{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:1.8rem;}
 .hero-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-cond);font-weight:700;letter-spacing:.03em;font-size:.78rem;text-transform:uppercase;padding:.44rem .8rem .44rem .6rem;border-radius:999px;border:1.5px solid var(--gold);color:var(--gold-soft);}
 .hero-badge svg{width:15px;height:15px;flex:none;}
-.hero-art{width:170px;margin-bottom:.4rem;position:relative;z-index:2;}
-@media (max-width:640px){.hero-art{width:130px;}}
+.hero-art{width:90px;margin-bottom:.4rem;position:relative;z-index:2;}
+@media (max-width:640px){.hero-art{width:70px;}}
 .hero .credits{margin-top:2rem;font-family:var(--font-cond);font-weight:600;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--parchment);opacity:.55;}
 .btn-ticket{position:relative;}
 .btn-ticket::before,.btn-ticket::after{content:"";position:absolute;top:50%;width:15px;height:15px;border-radius:50%;background:var(--ink);transform:translateY(-50%);}
