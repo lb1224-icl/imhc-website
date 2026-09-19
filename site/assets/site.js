@@ -158,6 +158,26 @@ function eventsOnDay(events, y, m, d) {
   return events.filter(function (ev) { return ev.startNum <= n && n <= ev.endNum; });
 }
 
+// "1s v Kent (Away)" for matches, plain title for everything else.
+function eventLabel(ev) {
+  if (ev.type !== 'match') return ev.title;
+  var opponent = ev.opponent || ev.title;
+  return (ev.team ? ev.team + ' v ' : '') + opponent + (ev.homeAway ? ' (' + ev.homeAway + ')' : '');
+}
+
+function realLocation(ev) {
+  return ev.location && !/^tbc$/i.test(ev.location.trim()) ? ev.location : '';
+}
+
+// Detail line under a title: kick-off and venue for matches, venue and time otherwise.
+function eventMeta(ev) {
+  var until = ev.endNum > ev.startNum ? 'Until ' + ev.endParts.d + ' ' + MONTH_ABBR[ev.endParts.m - 1] : '';
+  if (ev.type === 'match') {
+    return [ev.time ? 'Kick-off ' + ev.time : 'Kick-off TBC', realLocation(ev) || 'Venue TBC'].join(' · ');
+  }
+  return [ev.location, ev.time, until].filter(Boolean).join(' · ');
+}
+
 // ---- Agenda lists (home "This fortnight", calendar "Up next", hockey "Matches") ----
 // Any element with data-agenda="fortnight|next|matches" is filled from Notion.
 function initAgendas() {
@@ -217,11 +237,10 @@ function agendaRow(ev, withPill) {
   var info = document.createElement('div');
   info.className = 'agenda-info';
   var title = document.createElement('b');
-  title.textContent = ev.title;
+  title.textContent = eventLabel(ev);
   var meta = document.createElement('div');
   meta.className = 'meta';
-  var until = ev.endNum > ev.startNum ? 'Until ' + ev.endParts.d + ' ' + MONTH_ABBR[ev.endParts.m - 1] : '';
-  meta.textContent = [ev.homeAway, ev.location, ev.time, until].filter(Boolean).join(' · ');
+  meta.textContent = eventMeta(ev);
   info.appendChild(title);
   info.appendChild(meta);
 
@@ -256,6 +275,12 @@ function initCalendar() {
   var current = { y: t.y, m: t.m - 1 };
   var events = [];
   var state = 'loading';
+  var team = 'all';
+  var teamBar = document.getElementById('teamBar');
+  var fixtureList = document.getElementById('fixtureList');
+  var fixturesHead = document.getElementById('fixturesHead');
+
+  function teamOk(ev) { return ev.type !== 'match' || team === 'all' || ev.team === team; }
 
   function activeFilter() {
     var group = grid.closest('[data-filter-group]');
@@ -299,12 +324,13 @@ function initCalendar() {
             var chip = document.createElement('div');
             chip.className = 'cal-evt';
             chip.setAttribute('data-cat', ev.type);
-            chip.style.display = (f === 'all' || f === ev.type) ? '' : 'none';
+            chip.setAttribute('data-squad', ev.team || '');
+            chip.style.display = ((f === 'all' || f === ev.type) && teamOk(ev)) ? '' : 'none';
             if (ev.location) chip.title = ev.location;
             var dot = document.createElement('i');
             dot.className = 'dot ' + ev.type;
             chip.appendChild(dot);
-            chip.appendChild(document.createTextNode(ev.title + (ev.time ? ' ' + ev.time : '')));
+            chip.appendChild(document.createTextNode(eventLabel(ev) + (ev.time ? ' ' + ev.time : '')));
             wrap.appendChild(chip);
           });
           cell.appendChild(wrap);
@@ -314,11 +340,46 @@ function initCalendar() {
     }
 
     monthLabel.textContent = MONTH_NAMES[current.m] + ' ' + current.y;
+    renderFixtures();
     if (status) {
       status.textContent = state === 'loading' ? 'Loading events…'
         : state === 'error' ? "Couldn't load the calendar right now – please try again later."
         : monthEvents === 0 ? 'No events listed for this month yet.' : '';
     }
+  }
+
+  function renderFixtures() {
+    if (!fixtureList) return;
+    fixtureList.innerHTML = '';
+    fixturesHead.textContent = 'Fixtures in ' + MONTH_NAMES[current.m];
+    if (state === 'loading') return agendaNote(fixtureList, 'Loading fixtures…');
+    if (state === 'error') return agendaNote(fixtureList, "Couldn't load fixtures right now.");
+    var lo = dayNum(current.y, current.m + 1, 1), hi = dayNum(current.y, current.m + 1, 31);
+    var list = events.filter(function (ev) {
+      return ev.type === 'match' && ev.startNum <= hi && ev.endNum >= lo && (team === 'all' || ev.team === team);
+    });
+    if (!list.length) return agendaNote(fixtureList, 'No ' + (team === 'all' ? '' : team + ' ') + 'fixtures listed for this month.');
+    list.forEach(function (ev) {
+      var row = agendaRow(ev, false);
+      if (ev.team) {
+        var tag = document.createElement('span');
+        tag.className = 'pill pill-red';
+        tag.textContent = ev.team;
+        row.replaceChild(tag, row.lastChild);
+      }
+      fixtureList.appendChild(row);
+    });
+  }
+
+  if (teamBar) {
+    teamBar.querySelectorAll('[data-team]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        teamBar.querySelectorAll('[data-team]').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        team = btn.getAttribute('data-team');
+        render();
+      });
+    });
   }
 
   prevBtn.addEventListener('click', function () {

@@ -111,6 +111,11 @@ function toEvent(page) {
   const tags = names(prop(page, 'Tags'));
   const competition = first(prop(page, 'Competition Type'));
 
+  const homeAway = first(prop(page, 'Home/Away')) || (title.match(/\((home|away)\)\s*$/i) || [])[1] || '';
+  const tagText = tags.join(' ');
+  const numbered = tagText.match(/\b([123])(?:st|nd|rd|s)\b/i);
+  const team = numbered ? numbered[1] + 's' : /\blusl\b/i.test(tagText) ? 'LUSL' : '';
+
   return {
     id: page.id,
     title,
@@ -121,7 +126,9 @@ function toEvent(page) {
     type: typeFor(tags, competition),
     location: plain(prop(page, 'Location')),
     competition,
-    homeAway: first(prop(page, 'Home/Away')),
+    homeAway: homeAway ? homeAway[0].toUpperCase() + homeAway.slice(1).toLowerCase() : '',
+    team,
+    opponent: title.replace(/\s*\((home|away)\)\s*$/i, '').trim(),
   };
 }
 
