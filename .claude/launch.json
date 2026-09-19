@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "main",
+      "name": "site",
       "runtimeExecutable": "py",
-      "runtimeArgs": ["-3", "-m", "http.server", "5577", "--directory", "main"],
+      "runtimeArgs": ["-3", "-m", "http.server", "5577", "--directory", "site"],
       "port": 5577
     }
   ]
