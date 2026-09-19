@@ -467,7 +467,7 @@ function renderLinks(host, links, note) {
     .concat(order.filter(function (k) { return known.indexOf(k) < 0; }));
 
   host.innerHTML = '';
-  keys.forEach(function (key, i) {
+  keys.forEach(function (key) {
     var def = LINK_SECTIONS.filter(function (x) { return x.key === key; })[0];
     var cat = document.createElement('div');
     cat.className = 'link-cat';
@@ -477,7 +477,7 @@ function renderLinks(host, links, note) {
     h.textContent = def ? def.title : groups[key].name;
     var grid = document.createElement('div');
     grid.className = 'link-grid';
-    groups[key].items.forEach(function (l, j) { grid.appendChild(linkTile(l, i === 0 && j === 0)); });
+    groups[key].items.forEach(function (l) { grid.appendChild(linkTile(l, l.icon === 'message')); });
     cat.appendChild(h);
     cat.appendChild(grid);
     host.appendChild(cat);
