@@ -205,8 +205,8 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
 
 /* ---- Pills / badges (solid, stamp-like) ---- */
 .pill{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--font-cond);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;padding:.32rem .65rem;border-radius:999px;border:1.5px solid var(--shadow);}
-.pill-gold{background:var(--gold);border-color:var(--shadow);color:#1A1200;transform:rotate(-1.5deg);}
-.pill-red{background:var(--red);border-color:var(--shadow);color:var(--parchment);transform:rotate(1.5deg);}
+.pill-gold{background:var(--gold);border-color:var(--shadow);color:#1A1200;}
+.pill-red{background:var(--red);border-color:var(--shadow);color:var(--parchment);}
 .pill-outline{color:var(--parchment-dim);border-color:var(--line-strong);background:transparent;}
 .result-chip{width:2rem;height:2rem;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-cond);font-weight:800;font-size:.9rem;flex:none;border:2px solid var(--shadow);}
 .result-chip.w{background:var(--win);color:#0F1C12;}
@@ -270,7 +270,9 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
 .insta-tile:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--shadow);}
 .insta-tile .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .insta-tile .ph svg{width:44%;height:44%;}
-.insta-tile .cap{position:absolute;inset:auto 0 0 0;padding:.6rem .7rem;background:var(--shadow);font-family:var(--font-cond);font-weight:600;font-size:.7rem;letter-spacing:.03em;color:var(--parchment);transform:translateY(100%);transition:transform .15s ease;}
+.insta-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.insta-tile .ig{z-index:1;}
+.insta-tile .cap{z-index:1;position:absolute;inset:auto 0 0 0;padding:.6rem .7rem;background:var(--shadow);font-family:var(--font-cond);font-weight:600;font-size:.7rem;letter-spacing:.03em;color:var(--parchment);transform:translateY(100%);transition:transform .15s ease;}
 .insta-tile:hover .cap{transform:translateY(0);}
 .insta-tile .ig{position:absolute;top:.6rem;right:.6rem;width:16px;height:16px;opacity:.85;}
 @media (max-width:920px){.insta-grid{grid-template-columns:repeat(3,1fr);}}

@@ -52,7 +52,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
   initCalendar();
   initScrollCue();
+  initInstagram();
 });
+
+// ---- Instagram feed (Behold JSON) ----
+// Replaces the placeholder sticker tiles with the latest real posts.
+// If the fetch fails for any reason, the placeholder tiles stay as they are.
+function initInstagram() {
+  var grid = document.getElementById('instaGrid');
+  if (!grid || !window.fetch) return;
+  fetch(grid.getAttribute('data-feed'))
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (data) {
+      var posts = (data.posts || []).slice(0, 6);
+      if (!posts.length) return;
+      var igIcon = '<svg class="ig" viewBox="0 0 24 24" fill="none" stroke="#F3EAD9" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>';
+      grid.innerHTML = '';
+      posts.forEach(function (p) {
+        var src = (p.sizes && p.sizes.medium && p.sizes.medium.mediaUrl) || p.thumbnailUrl || p.mediaUrl;
+        var text = (p.prunedCaption || p.caption || 'View on Instagram').replace(/\s+/g, ' ').trim();
+        var short = text.length > 46 ? text.slice(0, 46).trim() + '…' : text;
+        var a = document.createElement('a');
+        a.className = 'insta-tile';
+        a.href = p.permalink;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', 'Instagram post: ' + short);
+        var img = document.createElement('img');
+        img.src = src;
+        img.alt = '';
+        img.loading = 'lazy';
+        a.appendChild(img);
+        a.insertAdjacentHTML('beforeend', igIcon + '<span class="cap"></span>');
+        a.querySelector('.cap').textContent = short;
+        grid.appendChild(a);
+      });
+    })
+    .catch(function () { /* keep placeholder tiles */ });
+}
 
 // ---- Scroll cue ----
 // Fades the fixed side scroll hint once the visitor has actually scrolled,
