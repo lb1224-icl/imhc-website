@@ -169,11 +169,16 @@ function realLocation(ev) {
   return ev.location && !/^tbc$/i.test(ev.location.trim()) ? ev.location : '';
 }
 
+// "Location @ time", with TBC for whichever is unknown.
+function matchWhere(ev) {
+  return (realLocation(ev) || 'TBC') + ' @ ' + (ev.time || 'TBC');
+}
+
 // Detail line under a title: kick-off and venue for matches, venue and time otherwise.
 function eventMeta(ev) {
   var until = ev.endNum > ev.startNum ? 'Until ' + ev.endParts.d + ' ' + MONTH_ABBR[ev.endParts.m - 1] : '';
   if (ev.type === 'match') {
-    return [ev.time ? 'Kick-off ' + ev.time : 'Kick-off TBC', realLocation(ev) || 'Venue TBC'].join(' · ');
+    return matchWhere(ev);
   }
   return [ev.location, ev.time, until].filter(Boolean).join(' · ');
 }
@@ -330,7 +335,20 @@ function initCalendar() {
             var dot = document.createElement('i');
             dot.className = 'dot ' + ev.type;
             chip.appendChild(dot);
-            chip.appendChild(document.createTextNode(eventLabel(ev) + (ev.time ? ' ' + ev.time : '')));
+            if (ev.type === 'match') {
+              var body = document.createElement('span');
+              body.className = 'cal-evt-body';
+              var name = document.createElement('span');
+              name.textContent = eventLabel(ev);
+              var where = document.createElement('small');
+              where.textContent = matchWhere(ev);
+              body.appendChild(name);
+              body.appendChild(where);
+              chip.appendChild(body);
+              chip.classList.add('cal-evt-match');
+            } else {
+              chip.appendChild(document.createTextNode(ev.title + (ev.time ? ' ' + ev.time : '')));
+            }
             wrap.appendChild(chip);
           });
           cell.appendChild(wrap);

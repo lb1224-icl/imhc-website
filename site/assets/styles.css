@@ -468,3 +468,9 @@ h4,.h4{font-family:var(--font-cond);font-weight:600;letter-spacing:.03em;text-tr
 .cal-evt[data-cat="special"]{background:var(--parchment);color:#1A1200;}
 .agenda-note{color:var(--fog);font-size:.9rem;padding:.6rem 0;}
 @media (max-width:640px){.tabbar{flex-wrap:wrap;justify-content:center;max-width:100%;border-radius:22px;}}
+
+/* Match chips: fixture on top, "Location @ time" underneath */
+.cal-evt-match{border-radius:14px;align-items:flex-start;}
+.cal-evt-match .dot{margin-top:.28rem;flex:none;}
+.cal-evt-body{display:flex;flex-direction:column;min-width:0;}
+.cal-evt-body small{font-size:.85em;font-weight:600;opacity:.85;letter-spacing:.02em;}
