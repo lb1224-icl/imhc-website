@@ -169,7 +169,7 @@ function toLink(page) {
   return {
     id: page.id,
     title,
-    url: link && link.type === 'url' && link.url ? link.url : '',
+    url: link && link.type === 'url' ? link.url || '' : plain(link),
     description: plain(prop(page, 'Description')),
     section: first(prop(page, 'Section')),
     icon: first(prop(page, 'Icon')).toLowerCase(),
