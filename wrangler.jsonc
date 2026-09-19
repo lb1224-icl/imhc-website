@@ -8,6 +8,7 @@
     "run_worker_first": ["/api/*"]
   },
   "vars": {
-    "NOTION_DATABASE_ID": "8fdbb20420438273b1b9018c9879a284"
+    "NOTION_DATABASE_ID": "8fdbb20420438273b1b9018c9879a284",
+    "NOTION_LINKS_DATABASE_ID": "3e0bb204204380918c6cd47d1346ee9a"
   }
 }

@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initAgendas();
   initScrollCue();
   initInstagram();
+  initLinks();
 });
 
 // ---- Instagram feed (Behold JSON) ----
@@ -414,4 +415,111 @@ function initCalendar() {
     if (list === null) { state = 'error'; } else { state = 'ready'; events = list; }
     render();
   });
+}
+
+// ---- Links page (Notion, via the /api/links Worker route) ----
+var LINK_SECTIONS = [
+  { key: 'freshers', title: 'New here? Start below!' },
+  { key: 'bucs', title: 'BUCS' },
+  { key: 'payment', title: 'Payment Links' },
+  { key: 'resources', title: 'Resources' }
+];
+var LINK_ICONS = {
+  message: '<path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5z"/>',
+  instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/>',
+  money: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>',
+  card: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>',
+  calendar: '<path d="M8 4v3M16 4v3M4 9h16M5 6h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/>',
+  kit: '<path d="M8 4 4 7l2 3 2-1v11h8V9l2 1 2-3-4-3-2 2h-2z"/>',
+  cup: '<path d="M8 4h8v4a4 4 0 0 1-8 0V4zM8 6H5a2 2 0 0 0 2 4M16 6h3a2 2 0 0 1-2 4M12 12v4m-3 4h6l-1-4H10z"/>',
+  photo: '<rect x="3" y="4" width="18" height="15" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M3 16l5-5 4 4 3-3 6 6"/>',
+  link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'
+};
+var SVG_NS = 'http://www.w3.org/2000/svg';
+
+function initLinks() {
+  var host = document.getElementById('linkSections');
+  if (!host) return;
+  var note = function (msg) {
+    host.innerHTML = '';
+    var p = document.createElement('p');
+    p.className = 'agenda-note';
+    p.textContent = msg;
+    host.appendChild(p);
+  };
+  if (!window.fetch) return note("Couldn't load links right now.");
+  fetch('/api/links')
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (data) { renderLinks(host, data.links || [], note); })
+    .catch(function () { note("Couldn't load the links right now. Email medics.hockey@imperial.ac.uk and we'll help."); });
+}
+
+function renderLinks(host, links, note) {
+  if (!links.length) return note('No links yet.');
+  var groups = {}, order = [];
+  links.forEach(function (l) {
+    var key = (l.section || 'Other').toLowerCase();
+    if (!groups[key]) { groups[key] = { name: l.section || 'Other', items: [] }; order.push(key); }
+    groups[key].items.push(l);
+  });
+  var known = LINK_SECTIONS.map(function (x) { return x.key; });
+  var keys = known.filter(function (k) { return groups[k]; })
+    .concat(order.filter(function (k) { return known.indexOf(k) < 0; }));
+
+  host.innerHTML = '';
+  keys.forEach(function (key, i) {
+    var def = LINK_SECTIONS.filter(function (x) { return x.key === key; })[0];
+    var cat = document.createElement('div');
+    cat.className = 'link-cat';
+    var h = document.createElement('h4');
+    h.className = 'eyebrow';
+    h.style.marginBottom = '1.25rem';
+    h.textContent = def ? def.title : groups[key].name;
+    var grid = document.createElement('div');
+    grid.className = 'link-grid';
+    groups[key].items.forEach(function (l, j) { grid.appendChild(linkTile(l, i === 0 && j === 0)); });
+    cat.appendChild(h);
+    cat.appendChild(grid);
+    host.appendChild(cat);
+  });
+}
+
+function linkTile(l, featured) {
+  var a = document.createElement('a');
+  a.className = 'link-tile' + (featured ? ' card' : '');
+  if (featured) a.style.borderTop = '5px solid var(--red)';
+  a.href = l.url || '#';
+  if (/^https?:/i.test(l.url) && l.url.indexOf(location.origin) !== 0) { a.target = '_blank'; a.rel = 'noopener'; }
+
+  var ic = document.createElement('span');
+  ic.className = 'ic';
+  var svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('width', '20');
+  svg.setAttribute('height', '20');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', '1.6');
+  svg.setAttribute('stroke-linecap', 'round');
+  svg.setAttribute('stroke-linejoin', 'round');
+  svg.innerHTML = LINK_ICONS[l.icon] || LINK_ICONS.link;
+  ic.appendChild(svg);
+
+  var body = document.createElement('span');
+  var b = document.createElement('b');
+  b.textContent = l.title;
+  body.appendChild(b);
+  if (l.description) {
+    var p = document.createElement('p');
+    p.textContent = l.description;
+    body.appendChild(p);
+  }
+  var go = document.createElement('span');
+  go.className = 'go';
+  go.innerHTML = '&rarr;';
+
+  a.appendChild(ic);
+  a.appendChild(body);
+  a.appendChild(go);
+  return a;
 }

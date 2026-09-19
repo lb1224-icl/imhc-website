@@ -9,6 +9,7 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === '/api/events') return handleEvents(request, env, ctx);
+    if (url.pathname === '/api/links') return handleLinks(request, env, ctx);
     return env.ASSETS.fetch(request);
   },
 };
@@ -37,11 +38,35 @@ async function handleEvents(request, env, ctx) {
   }
 }
 
-async function queryAll(env) {
+async function handleLinks(request, env, ctx) {
+  if (request.method !== 'GET') return json({ error: 'Method not allowed' }, 405, false);
+
+  const cache = caches.default;
+  const cacheKey = new Request(new URL('/api/links', request.url).toString());
+  const cached = await cache.match(cacheKey);
+  if (cached) return cached;
+
+  if (!env.NOTION_TOKEN || !env.NOTION_LINKS_DATABASE_ID) {
+    return json({ error: 'Notion links are not configured' }, 500, false);
+  }
+
+  try {
+    const pages = await queryAll(env, env.NOTION_LINKS_DATABASE_ID);
+    const links = pages.map(toLink).filter(Boolean);
+    links.sort((a, b) => a.order - b.order);
+    const response = json({ links, updated: new Date().toISOString() }, 200, true);
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    return response;
+  } catch (err) {
+    return json({ error: 'Could not read the Notion links' }, 502, false);
+  }
+}
+
+async function queryAll(env, databaseId = env.NOTION_DATABASE_ID) {
   const pages = [];
   let cursor;
   do {
-    const res = await fetch(`https://api.notion.com/v1/databases/${env.NOTION_DATABASE_ID}/query`, {
+    const res = await fetch(`https://api.notion.com/v1/databases/${databaseId}/query`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${env.NOTION_TOKEN}`,
@@ -129,6 +154,26 @@ function toEvent(page) {
     homeAway: homeAway ? homeAway[0].toUpperCase() + homeAway.slice(1).toLowerCase() : '',
     team,
     opponent: title.replace(/\s*\((home|away)\)\s*$/i, '').trim(),
+  };
+}
+
+function toLink(page) {
+  const hide = prop(page, 'Hide from website');
+  if (hide && hide.type === 'checkbox' && hide.checkbox) return null;
+
+  const title = plain(prop(page, 'Title')) || plain(prop(page, 'Name'));
+  if (!title) return null;
+
+  const link = prop(page, 'Link');
+  const order = prop(page, 'Order');
+  return {
+    id: page.id,
+    title,
+    url: link && link.type === 'url' && link.url ? link.url : '',
+    description: plain(prop(page, 'Description')),
+    section: first(prop(page, 'Section')),
+    icon: first(prop(page, 'Icon')).toLowerCase(),
+    order: order && order.type === 'number' && order.number != null ? order.number : 9999,
   };
 }
 
