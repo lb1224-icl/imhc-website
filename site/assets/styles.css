@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Imperial Medics Men's Hockey — design reference stylesheet
+   Imperial Medics Men's Hockey – design reference stylesheet
    Deliberately single-theme (dark). Colours calibrated from the club crest:
    crest red, phoenix gold, crossed-stick black, parchment white.
    ========================================================================== */
@@ -17,7 +17,7 @@
 @font-face{font-family:'Barlow';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/barlow-600.woff2') format('woff2');}
 
 /* ---- Tokens ----
-   Committed dark theme — colours painted explicitly, no light variant. */
+   Committed dark theme – colours painted explicitly, no light variant. */
 :root{
   --ink:#140F0D;
   --ink-raise:#1B1512;

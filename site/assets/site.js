@@ -1,4 +1,4 @@
-// Imperial Medics HC — reference site interactions (no framework, no deps)
+// Imperial Medics HC – reference site interactions (no framework, no deps)
 
 document.addEventListener('DOMContentLoaded', function () {
   // Mobile nav toggle
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Tab panels: a [data-tab-group] wraps buttons ([data-tab]) and content
-  // panels ([data-tabpanel]) — clicking a button shows the matching panel
+  // panels ([data-tabpanel]) – clicking a button shows the matching panel
   // and hides the others. Used on the Hockey page (Fantastar/Matches/Training).
   document.querySelectorAll('[data-tab-group]').forEach(function (group) {
     var buttons = group.querySelectorAll('[data-tab]');
@@ -171,7 +171,7 @@ function initAgendas() {
 function fillAgenda(list, events) {
   var kind = list.getAttribute('data-agenda');
   list.innerHTML = '';
-  if (events === null) return agendaNote(list, "Couldn't load events right now — please try again later.");
+  if (events === null) return agendaNote(list, "Couldn't load events right now – please try again later.");
 
   var t = todayLondon();
   var today = dayNum(t.y, t.m, t.d);
@@ -316,7 +316,7 @@ function initCalendar() {
     monthLabel.textContent = MONTH_NAMES[current.m] + ' ' + current.y;
     if (status) {
       status.textContent = state === 'loading' ? 'Loading events…'
-        : state === 'error' ? "Couldn't load the calendar right now — please try again later."
+        : state === 'error' ? "Couldn't load the calendar right now – please try again later."
         : monthEvents === 0 ? 'No events listed for this month yet.' : '';
     }
   }
