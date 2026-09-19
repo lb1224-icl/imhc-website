@@ -63,27 +63,8 @@
         <h2 class="h2">Up next</h2>
       </div>
     </div>
-    <div class="agenda-list card">
-      <div class="agenda-row">
-        <div class="agenda-date"><b>16</b><span>Oct</span></div>
-        <div class="agenda-info"><b>Goalkeeper Session</b><div class="meta">Ethos Sports Centre &middot; 18:00</div></div>
-        <span class="dot training" title="Training"></span>
-      </div>
-      <div class="agenda-row">
-        <div class="agenda-date"><b>18</b><span>Oct</span></div>
-        <div class="agenda-info"><b>Optional Skills &amp; Fitness</b><div class="meta">Heston Astro &middot; 10:00</div></div>
-        <span class="dot training" title="Training"></span>
-      </div>
-      <div class="agenda-row">
-        <div class="agenda-date"><b>19</b><span>Oct</span></div>
-        <div class="agenda-info"><b>Fitness &amp; Fundamentals</b><div class="meta">Ethos Sports Centre &middot; 19:00</div></div>
-        <span class="dot training" title="Training"></span>
-      </div>
-      <div class="agenda-row">
-        <div class="agenda-date"><b>21</b><span>Oct</span></div>
-        <div class="agenda-info"><b>1st XI vs Southampton &mdash; BUCS</b><div class="meta">Away &middot; 13:00</div></div>
-        <span class="dot match" title="Match"></span>
-      </div>
+    <div class="agenda-list card" data-agenda="next">
+      <p class="agenda-note">Loading events…</p>
     </div>
   </div>
 </section>
@@ -95,18 +76,20 @@
         <span><i class="dot match"></i> Matches</span>
         <span><i class="dot training"></i> Training</span>
         <span><i class="dot social"></i> Socials</span>
+        <span><i class="dot special"></i> Special</span>
       </div>
       <div class="tabbar">
         <button data-filter="all" class="active">All</button>
         <button data-filter="match">Matches</button>
         <button data-filter="training">Training</button>
         <button data-filter="social">Socials</button>
+        <button data-filter="special">Special</button>
       </div>
     </div>
 
     <div class="cal-month-head">
       <button id="calPrev" class="cal-nav-btn" aria-label="Previous month">&larr;</button>
-      <h3 class="h3" id="calMonthLabel">October 2026</h3>
+      <h3 class="h3" id="calMonthLabel"></h3>
       <button id="calNext" class="cal-nav-btn" aria-label="Next month">&rarr;</button>
     </div>
     <div class="cal-wrap">
@@ -115,7 +98,7 @@
       <div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div><div class="cal-dow">Sun</div>
     </div>
     </div>
-    <p style="color:var(--fog);font-size:.85rem;margin-top:1rem;">Sample data covers September&ndash;November 2026 for this reference &mdash; the live site pulls every month straight from the club's Notion calendar.</p>
+    <p id="calStatus" style="color:var(--fog);font-size:.85rem;margin-top:1rem;"></p>
   </div>
 </section>
 

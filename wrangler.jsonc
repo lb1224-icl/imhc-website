@@ -1,0 +1,13 @@
+{
+  "name": "imhc-website",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./site",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "vars": {
+    "NOTION_DATABASE_ID": "8fdbb20420438273b1b9018c9879a284"
+  }
+}
